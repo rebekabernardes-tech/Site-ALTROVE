@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Altrove · Um intervalo um pouco mais doce</title>
+<!-- Fontes PROPOSTAS (confirmar com a fonte do logotipo). Para trocar: edite este link e as variáveis --serif/--sans no CSS. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/altrove.css">
+</head>
+<body>
+<!-- ESTRUTURA: aviso · cabeçalho · <main> com 7 views (inicio, cardapio, produto, carrinho, checkout, confirmacao, acompanhar) · rodapé.
+     O JavaScript (assets/js/app.js) mostra uma view por vez conforme o #hash da URL.
+     Dados vêm de assets/js/api.js (ÁREA RESERVADA para C# + MySQL). -->
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+
+<!-- AVISO DE PROTÓTIPO (discreto de propósito). Remover na versão real. -->
+<div class="demo" role="note">Protótipo de demonstração: preços, taxa e disponibilidade são fictícios; nenhum pedido é enviado e nada é cobrado.</div>
+
+<!-- ============ CABEÇALHO (roxo profundo + logotipo claro; ver SVG provisório) ============ -->
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    <a href="#inicio" aria-label="Altrove, página inicial"><img class="logo" src="assets/svg/logo-claro.svg" alt="Altrove" width="295" height="119"></a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#cardapio" data-nav="cardapio">Cardápio</a>
+      <a href="#acompanhar" data-nav="acompanhar">Acompanhar pedido</a>
+      <a href="#carrinho" data-nav="carrinho">Carrinho<span class="badge" id="cart-badge" aria-label="0 itens">0</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="conteudo" class="wrap" tabindex="-1">
+
+<!-- ============ VIEW: INÍCIO (30% conceito, 70% sensorial) ============ -->
+<section class="view" data-view="inicio">
+  <div class="hero">
+    <div class="reveal">
+      <h1>Um intervalo um pouco mais doce.</h1>
+      <p class="hero__lead">Massa macia, recheio cremoso, cheiro de canela. Bolos e tortas em fatias, entregues em casa. <span class="mut">(texto de demonstração)</span></p>
+      <div class="acts"><a class="btn" href="#cardapio">Escolher minha fatia</a><a class="btn btn--ghost" href="#acompanhar">Acompanhar pedido</a></div>
+    </div>
+    <!-- Foto principal PROVISÓRIA (trocar por foto definitiva em assets/img). Aquarela = .blob (CSS). -->
+    <div class="hero__fig reveal">
+      <span class="blob blob--1"></span><span class="blob blob--2"></span><span class="blob blob--3"></span>
+      <img class="photo" src="assets/img/hero-torta-caramelizada.jpg" alt="Fatia de torta caramelizada com chantilly sobre uma mesa de café, em luz natural" width="853" height="1280">
+      <svg class="steam" viewBox="0 0 60 90" aria-hidden="true"><path d="M20 88C8 70 32 58 20 40S34 12 26 2M42 88C30 72 54 62 44 46S56 20 50 8"/></svg>
+      <p class="caption">Foto provisória</p>
+    </div>
+  </div>
+
+  <div class="sec reveal">
+    <h2>Sabores da estação: Primavera</h2>
+    <p class="mut">Só aparecem fatias disponíveis para pedir.</p>
+    <div class="grid" id="home-grid"></div>
+    <p style="margin-top:24px"><a href="#cardapio">Ver o cardápio completo</a></p>
+  </div>
+</section>
+
+<!-- ============ VIEW: CARDÁPIO ============ -->
+<section class="view" data-view="cardapio" hidden>
+  <div class="sec">
+    <h1>Cardápio</h1>
+    <p class="mut">Preços por fatia, de demonstração.</p>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar cardápio"></div>
+    <div class="grid" id="menu-grid"></div>
+  </div>
+</section>
+
+<!-- ============ VIEW: PRODUTO (preenchida por app.js > renderProduto) ============ -->
+<section class="view" data-view="produto" hidden><div class="sec" id="pdp"></div></section>
+
+<!-- ============ VIEW: CARRINHO (preenchida por app.js > renderCarrinho) ============ -->
+<section class="view" data-view="carrinho" hidden>
+  <div class="sec"><h1>Carrinho</h1><div id="cart-body"></div></div>
+</section>
+
+<!-- ============ VIEW: CHECKOUT ============ -->
+<section class="view" data-view="checkout" hidden>
+  <div class="sec">
+    <h1>Finalizar pedido</h1>
+    <p class="msg">Ambiente de teste: nenhum pagamento é processado e dados de cartão não são coletados.</p>
+    <div class="two">
+      <form id="co-form" novalidate>
+        <div id="errs" role="alert"></div>
+        <fieldset class="fields"><legend>Seus dados</legend>
+          <div><label for="nome">Nome completo</label><input id="nome" autocomplete="name"><div class="ferr" id="nome-e"></div></div>
+          <div><label for="tel">Telefone com DDD</label><input id="tel" inputmode="tel" autocomplete="tel"><div class="ferr" id="tel-e"></div></div>
+        </fieldset>
+        <fieldset class="fields"><legend>Entrega</legend>
+          <div class="full"><label for="cep">CEP</label><input id="cep" inputmode="numeric" maxlength="9" placeholder="00000-000" autocomplete="postal-code"><div class="ferr" id="cep-e"></div><div id="cep-msg" aria-live="polite"></div></div>
+          <div class="full"><label for="end">Rua e bairro</label><input id="end" autocomplete="street-address"><div class="ferr" id="end-e"></div></div>
+          <div><label for="num">Número</label><input id="num"><div class="ferr" id="num-e"></div></div>
+          <div><label for="comp">Complemento (opcional)</label><input id="comp"></div>
+          <div class="full"><label for="obs">Observações (opcional)</label><textarea id="obs" rows="2"></textarea></div>
+        </fieldset>
+        <!-- Formas do SQL: pix | cartao | dinheiro. Só exibir as realmente configuradas pela loja. -->
+        <fieldset class="fields" style="display:block"><legend>Pagamento</legend>
+          <div class="pay"><input type="radio" name="pay" id="p-pix" value="pix" checked><label for="p-pix">Pix<small>Em operação real, o código apareceria após a confirmação.</small></label></div>
+          <div class="pay"><input type="radio" name="pay" id="p-cartao" value="cartao"><label for="p-cartao">Cartão<small>Em operação real, seria processado por um provedor seguro.</small></label></div>
+          <div class="pay"><input type="radio" name="pay" id="p-dinheiro" value="dinheiro"><label for="p-dinheiro">Dinheiro<small>Pago na entrega.</small></label></div>
+        </fieldset>
+        <button class="btn" id="co-submit" type="submit">Confirmar pedido de demonstração</button>
+      </form>
+      <aside class="panel sum">
+        <h2 style="font-size:1.7rem">Seu pedido</h2><div id="co-items"></div>
+        <div><span>Subtotal</span><span id="co-sub"></span></div>
+        <div><span>Taxa de entrega</span><span id="co-tx" class="mut">informe o CEP</span></div>
+        <div class="total"><span>Total</span><span id="co-total"></span></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIEW: CONFIRMAÇÃO (honesta: pedido de demonstração) ============ -->
+<section class="view" data-view="confirmacao" hidden><div class="sec" id="conf-body"></div></section>
+
+<!-- ============ VIEW: ACOMPANHAR PEDIDO (número + telefone) ============ -->
+<section class="view" data-view="acompanhar" hidden>
+  <div class="sec">
+    <h1>Acompanhar pedido</h1>
+    <form id="track-form" class="fields" novalidate style="max-width:640px">
+      <div><label for="t-num">Número do pedido</label><input id="t-num" placeholder="DEMO-0000"></div>
+      <div><label for="t-tel">Telefone usado no pedido</label><input id="t-tel" inputmode="tel"></div>
+      <div class="full"><button class="btn" type="submit">Ver situação</button></div>
+    </form>
+    <div id="track-result" aria-live="polite"></div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FAIXA DA FRASE ITALIANA (slogan 2, sempre presente; fora do <main> para largura total) ============ -->
+<section class="band reveal" aria-label="Assinatura da marca">
+  <div class="wrap">
+    <p class="band__it">Fermati, respira, goditi il momento.</p>
+    <p>Pare, respire, aproveite o momento.</p>
+    <svg class="wave" viewBox="0 0 520 40" preserveAspectRatio="none" aria-hidden="true"><path class="draw" d="M0 26C40 6 80 8 120 22S200 38 240 20 330 0 380 18 470 34 520 12"/></svg>
+  </div>
+</section>
+
+<!-- Texturas ampliadas: recortes das fotos provisórias (decorativo). Trocar por macros reais. -->
+<div class="textures reveal" aria-hidden="true"><div class="tex tex--a"></div><div class="tex tex--b"></div><div class="tex tex--c"></div></div>
+
+<!-- ============ RODAPÉ (roxo profundo) ============ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <img class="logo" src="assets/svg/logo-claro.svg" alt="Altrove" width="295" height="119">
+    <p><em>Fermati, respira, goditi il momento.</em> Pare, respire, aproveite o momento.</p>
+    <p><a href="#cardapio">Cardápio</a> · <a href="#acompanhar">Acompanhar pedido</a></p>
+    <p>Contato, área de entrega, horários e políticas: a definir pela Altrove. Logotipo em versão provisória.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
