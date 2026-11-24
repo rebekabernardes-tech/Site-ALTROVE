@@ -5,6 +5,7 @@
    Para mudar a identidade, altere SÓ a seção 1 (tokens).
    ========================================================================== */
 /* ---------- 1. TOKENS (cores, tipografia, formas) ---------- */
+
 :root {
   /* Paleta oficial (Ativo_1.png) */
   --creme: #F8F3EB;   /* fundo principal (55%) */
