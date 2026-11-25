@@ -84,7 +84,7 @@
           <p class="mut">Ingredientes e alergênicos: informados após confirmação pela Altrove.</p>
           ${p.disponivel ? `<div class="acts" style="align-items:flex-end"><div><label for="qt">Quantidade</label><input id="qt" type="number" min="1" max="20" value="1"></div><button class="btn" data-addq="${p.id}">Adicionar ao carrinho</button></div>`
                          : '<p class="msg msg--err">✕ Indisponível no momento. Veja outras fatias no cardápio.</p>'}
-          <img class="draw-cake" src="assets/svg/bolo-desenho.svg" alt="" aria-hidden="true">
+          <img class="draw-cake" src="svg/bolo-desenho.svg" alt="" aria-hidden="true">
         </div>
       </div>`;
   }
