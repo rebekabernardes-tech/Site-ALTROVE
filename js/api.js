@@ -25,11 +25,11 @@ window.AltroveAPI = (() => {
 
   /* ---------- MOCK (DADOS FICTÍCIOS: preços, taxa e disponibilidade) ---------- */
   const IMG = {
-    a: 'assets/img/hero-torta-caramelizada.jpg',
-    b: 'assets/img/bolo-framboesa-hortela.jpg',
-    c: 'assets/img/bolo-chocolate-cereja.jpg',
-    d: 'assets/img/bolo-chocolate-framboesa.jpg',
-    e: 'assets/img/torta-frutas-vermelhas.jpg',
+    a: 'img/hero-torta-caramelizada.jpg',
+    b: 'img/bolo-framboesa-hortela.jpg',
+    c: 'img/bolo-chocolate-cereja.jpg',
+    d: 'img/bolo-chocolate-framboesa.jpg',
+    e: 'img/torta-frutas-vermelhas.jpg',
   };
   const DEMO = 'Textura e aroma serão descritos com a receita real. (texto de demonstração)';
   // [id, nome, tipo, estacao, preco_fatia, disponivel, imagem, descricao, tipo_a_confirmar]
